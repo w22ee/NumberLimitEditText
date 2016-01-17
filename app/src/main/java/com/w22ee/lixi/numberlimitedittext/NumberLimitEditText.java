@@ -2,6 +2,9 @@ package com.w22ee.lixi.numberlimitedittext;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
@@ -18,14 +21,17 @@ public class NumberLimitEditText extends EditText {
 
     public NumberLimitEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     public NumberLimitEditText(Context context) {
         super(context);
+        init();
     }
 
     public NumberLimitEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public void setMaxDouble(double maxDouble) {
@@ -36,6 +42,34 @@ public class NumberLimitEditText extends EditText {
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         return new LimitInputConnectionWrapper(super.onCreateInputConnection(outAttrs), false);
+    }
+
+    private void  init(){
+        this.setCustomSelectionActionModeCallback(new ActionModeCallBack());
+        this.setLongClickable(false);
+    }
+
+    private class ActionModeCallBack implements ActionMode.Callback{
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
     }
 
     private boolean overload(CharSequence text, int newCursorPosition) {
